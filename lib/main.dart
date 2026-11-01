@@ -13,15 +13,8 @@ class QRushApp extends StatelessWidget {
       title: 'QRush',
       debugShowCheckedModeBanner: false,
       theme: buildTheme(),
-      builder: (context, child) => Container(
-        color: AppColors.bg,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 480),
-            child: child,
-          ),
-        ),
-      ),
+      builder: (context, child) =>
+          Container(color: AppColors.bg, child: child),
       home: const MainShell(),
     );
   }

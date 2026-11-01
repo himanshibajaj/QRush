@@ -8,6 +8,7 @@ import 'qr_style.dart';
 import 'qr_types.dart';
 import 'saved_qr.dart';
 import 'theme.dart';
+import 'responsive.dart';
 
 QrType typeOf(String label) =>
     qrTypes.firstWhere((t) => t.label == label, orElse: () => qrTypes.first);
@@ -194,9 +195,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
         onTap: () async {
           await Navigator.push(
             context,
-               MaterialPageRoute(
-                builder: (_) => fitWidth(QrDetailScreen(qr: s), max: 640),
-                ),
+            MaterialPageRoute(builder: (_) => QrDetailScreen(qr: s)),
           );
           _load();
         },

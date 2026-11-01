@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'scan_result_screen.dart';
 import 'theme.dart';
+import 'responsive.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
