@@ -4,7 +4,7 @@ import 'create_screen.dart';
 import 'qr_types.dart';
 import 'theme.dart';
 
-// Har group ka apna colour
+// Har group ka apna colour (icons ke liye)
 const _accents = <String, List<Color>>{
   'Basics': [Color(0xFF6366F1), Color(0xFF8B5CF6)],
   'People & Places': [Color(0xFF06B6D4), Color(0xFF3B82F6)],
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(width: 10),
               Text('QRush',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.deep,
                       fontSize: 20,
                       fontWeight: FontWeight.w800)),
             ],
@@ -41,13 +41,17 @@ class HomeScreen extends StatelessWidget {
         ],
         Text('Create QR codes',
             style: TextStyle(
-                color: Colors.white,
+                color: AppColors.deep,
                 fontSize: headSize,
                 fontWeight: FontWeight.w800,
                 height: 1.1)),
         ShaderMask(
           shaderCallback: (r) => const LinearGradient(
-            colors: [AppColors.accentCyan, AppColors.accentPink],
+            colors: [
+              AppColors.accentIndigo,
+              AppColors.accentViolet,
+              AppColors.accentPink,
+            ],
           ).createShader(r),
           child: Text('that stand out.',
               style: TextStyle(
@@ -62,7 +66,7 @@ class HomeScreen extends StatelessWidget {
           child: Text(
             'Design, scan and manage every QR code in one place. 24 content types, 12 ready designs and a built-in scanner.',
             style: TextStyle(
-                color: Colors.white70,
+                color: const Color(0xFF4B5563),
                 fontSize: big ? 16 : 14,
                 height: 1.5),
           ),
@@ -136,13 +140,13 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(width: 10),
                 Text(g,
                     style: const TextStyle(
-                        color: Colors.white,
+                        color: AppColors.deep,
                         fontSize: 17,
                         fontWeight: FontWeight.w700)),
                 const SizedBox(width: 10),
                 Text('${items.length} types',
-                    style:
-                        const TextStyle(color: Colors.white38, fontSize: 12)),
+                    style: const TextStyle(
+                        color: Colors.black38, fontSize: 12)),
               ],
             ),
           ),
@@ -170,7 +174,10 @@ class HomeScreen extends StatelessWidget {
     });
 
     return standalone
-        ? DarkBackdrop(child: SafeArea(bottom: false, child: content))
+        ? Container(
+            color: AppColors.bg,
+            child: SafeArea(bottom: false, child: content),
+          )
         : content;
   }
 }
@@ -183,14 +190,14 @@ class _Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white.withOpacity(0.07),
+      color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
-        side: BorderSide(color: Colors.white.withOpacity(0.12)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        hoverColor: Colors.white.withOpacity(0.06),
+        hoverColor: AppColors.soft,
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => CreateScreen(type: type)),
@@ -212,8 +219,8 @@ class _Tile extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: accent.first.withOpacity(0.45),
-                      blurRadius: 16,
+                      color: accent.first.withOpacity(0.35),
+                      blurRadius: 14,
                       offset: const Offset(0, 6),
                     ),
                   ],
@@ -227,7 +234,7 @@ class _Tile extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.deep,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
@@ -249,13 +256,13 @@ class _Pill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.08),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.14)),
+        border: Border.all(color: AppColors.border),
       ),
       child: Text(text,
           style: const TextStyle(
-              color: Colors.white70,
+              color: AppColors.deep,
               fontSize: 12.5,
               fontWeight: FontWeight.w600)),
     );
@@ -283,6 +290,13 @@ class _GradientButton extends StatelessWidget {
             gradient: const LinearGradient(
               colors: [AppColors.accentIndigo, AppColors.accentPink],
             ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.accentIndigo.withOpacity(0.3),
+                blurRadius: 14,
+                offset: const Offset(0, 6),
+              ),
+            ],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -313,22 +327,23 @@ class _GhostButton extends StatelessWidget {
       type: MaterialType.transparency,
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        hoverColor: Colors.white.withOpacity(0.06),
+        hoverColor: AppColors.soft,
         onTap: onTap,
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           decoration: BoxDecoration(
+            color: Colors.white,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.white.withOpacity(0.3)),
+            border: Border.all(color: AppColors.border),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: Colors.white, size: 20),
+              Icon(icon, color: AppColors.deep, size: 20),
               const SizedBox(width: 8),
               Text(label,
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w600)),
+                      color: AppColors.deep, fontWeight: FontWeight.w600)),
             ],
           ),
         ),

@@ -28,73 +28,51 @@ class _MainShellState extends State<MainShell> {
     // ---------- Website (laptop) ----------
     if (isWide(context)) {
       return Scaffold(
-        backgroundColor: AppColors.ink,
-        body: DarkBackdrop(
-          child: Column(
-            children: [
-              _TopBar(index: _index, onTap: _go),
-              Expanded(
-                child: _index == 0
-                    ? HomeScreen(standalone: false, onTab: _go)
-                    : Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 4, 24, 24),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
-                          child: ColoredBox(
-                            color: AppColors.bg,
-                            child: fitWidth(_tool(),
-                                max: _index == 1 ? 560 : 1200),
-                          ),
-                        ),
-                      ),
-              ),
-            ],
-          ),
+        backgroundColor: AppColors.bg,
+        body: Column(
+          children: [
+            _TopBar(index: _index, onTap: _go),
+            Expanded(
+              child: _index == 0
+                  ? HomeScreen(standalone: false, onTab: _go)
+                  : fitWidth(_tool(), max: _index == 1 ? 560 : 1200),
+            ),
+          ],
         ),
       );
     }
 
     // ---------- Phone ----------
     return Scaffold(
-      backgroundColor: AppColors.ink,
+      backgroundColor: AppColors.bg,
       body: _index == 0
           ? HomeScreen(standalone: true, onTab: _go)
           : _tool(),
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          backgroundColor: AppColors.ink,
-          indicatorColor: Colors.white.withOpacity(0.14),
-          labelTextStyle: const WidgetStatePropertyAll(
-            TextStyle(
-                color: Colors.white70,
-                fontSize: 12,
-                fontWeight: FontWeight.w600),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _index,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: AppColors.soft,
+        onDestinationSelected: _go,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.add_box_outlined),
+            selectedIcon: Icon(Icons.add_box, color: AppColors.primary),
+            label: 'Create',
           ),
-          iconTheme: const WidgetStatePropertyAll(
-            IconThemeData(color: Colors.white),
+          NavigationDestination(
+            icon: Icon(Icons.qr_code_scanner),
+            selectedIcon:
+                Icon(Icons.qr_code_scanner, color: AppColors.primary),
+            label: 'Scan',
           ),
-        ),
-        child: NavigationBar(
-          selectedIndex: _index,
-          onDestinationSelected: _go,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.add_box_outlined),
-              selectedIcon: Icon(Icons.add_box),
-              label: 'Create',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.qr_code_scanner),
-              selectedIcon: Icon(Icons.qr_code_scanner),
-              label: 'Scan',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.collections_bookmark_outlined),
-              selectedIcon: Icon(Icons.collections_bookmark),
-              label: 'Library',
-            ),
-          ],
-        ),
+          NavigationDestination(
+            icon: Icon(Icons.collections_bookmark_outlined),
+            selectedIcon:
+                Icon(Icons.collections_bookmark, color: AppColors.primary),
+            label: 'Library',
+          ),
+        ],
       ),
     );
   }
@@ -123,14 +101,17 @@ class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(color: AppColors.border)),
+      ),
       child: SafeArea(
         bottom: false,
         child: LayoutBuilder(builder: (context, c) {
           final pad = math.max(24.0, (c.maxWidth - 1200) / 2);
           return Container(
-            height: 76,
+            height: 68,
             padding: EdgeInsets.symmetric(horizontal: pad),
             child: Row(
               children: [
@@ -138,7 +119,7 @@ class _TopBar extends StatelessWidget {
                 const SizedBox(width: 12),
                 const Text('QRush',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.deep,
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
                         letterSpacing: 0.3)),
@@ -153,9 +134,10 @@ class _TopBar extends StatelessWidget {
                 const Spacer(),
                 TextButton.icon(
                   onPressed: _openRepo,
-                  icon: const Icon(Icons.code, size: 18, color: Colors.white70),
+                  icon: const Icon(Icons.code,
+                      size: 18, color: Color(0xFF4B5563)),
                   label: const Text('GitHub',
-                      style: TextStyle(color: Colors.white70)),
+                      style: TextStyle(color: Color(0xFF4B5563))),
                 ),
               ],
             ),
@@ -180,29 +162,26 @@ class _TabButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = selected ? AppColors.primary : const Color(0xFF4B5563);
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        hoverColor: Colors.white.withOpacity(0.08),
+        hoverColor: AppColors.soft,
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
-            color: selected
-                ? Colors.white.withOpacity(0.14)
-                : Colors.transparent,
+            color: selected ? AppColors.soft : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             children: [
-              Icon(icon,
-                  size: 18, color: selected ? Colors.white : Colors.white70),
+              Icon(icon, size: 18, color: color),
               const SizedBox(width: 8),
               Text(label,
                   style: TextStyle(
-                      color: selected ? Colors.white : Colors.white70,
-                      fontWeight: FontWeight.w600)),
+                      color: color, fontWeight: FontWeight.w600)),
             ],
           ),
         ),
